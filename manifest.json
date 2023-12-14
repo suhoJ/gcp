@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Webcam Capture",
+  "description": "Capture images from the webcam every few seconds",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
+}
+

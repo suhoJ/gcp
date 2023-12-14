@@ -1,0 +1,516 @@
+{\rtf1\ansi\ansicpg949\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset129 AppleSDGothicNeo-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15760\viewh16240\viewkind0
+\pard\tx720\tx1440\tx1966\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs32 \cf0 import json\
+import os\
+import csv\
+from os.path import expanduser\
+\
+file_path = '~/train/annos/000001.json'\
+file_path = expanduser(file_path)\
+with open(file_path, 'r') as file:\
+    data = json.load(file)\
+\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    writer.writerow(['category_name', 'bounding_box', 'segmentation'])\
+    for key, item in data.items():\
+        if isinstance(item, dict) and 'segmentation' in item:\
+            category_name = item['category_name']\
+            bounding_box = ','.join(map(str, item['bounding_box']))\
+            segmentation = ';'.join([','.join(map(str, segment)) for segment in item['segmentation']])\
+            writer.writerow([category_name, bounding_box, segmentation])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+import json\
+import csv\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000001.json')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    writer.writerow(['image_path', 'bounding_box', 'segmentation'])\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            bounding_box = ','.join(map(str, item_value['bounding_box']))\
+            segmentation = ','.join(map(str, item_value['segmentation'][0]))  # you may need to handle multiple segments\
+            writer.writerow([gcs_image_path, bounding_box, segmentation])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f1 \'bf\'cf\'bc\'ba
+\f0 \
+\
+import json\
+import csv\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000001.json')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    writer.writerow(['image_path', 'label', 'segment'])\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            label = item_value['category_name']\
+            segment = ','.join(map(str, item_value['segmentation'][0]))  \
+            writer.writerow([gcs_image_path, label, segment])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+import json\
+import csv\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000001.json')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    writer.writerow(['image_path', 'label', 'bounding_box'])\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            label = item_value['category_name']\
+            bounding_box = ','.join(map(str, item_value['bounding_box']))\
+            writer.writerow([gcs_image_path, label, bounding_box])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+import json\
+import csv\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000001.json')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+image_width = 1000\
+image_height = 1000\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    writer.writerow(['image_path', 'label', 'bounding_box'])\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            label = item_value['category_name']\
+            bounding_box = item_value['bounding_box']\
+            normalized_bounding_box = [\
+                bounding_box[0] / image_width,\
+                bounding_box[1] / image_height,\
+                bounding_box[2] / image_width,\
+                bounding_box[3] / image_height,\
+            ]\
+            writer.writerow([gcs_image_path, label, ','.join(map(str, normalized_bounding_box))])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+import json\
+import csv\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000001.json')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+image_width = 1000\
+image_height = 1000\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    writer.writerow(['image_path', 'label', 'bounding_box'])\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            label = item_value['category_name']\
+            bounding_box = item_value['bounding_box']\
+            normalized_bounding_box = [\
+                bounding_box[0] / image_width, # x1\
+                bounding_box[1] / image_height, # y1\
+                bounding_box[0] / image_width, # x1 (again)\
+                bounding_box[3] / image_height, # y2\
+                bounding_box[2] / image_width, # x2\
+                bounding_box[1] / image_height, # y1 (again)\
+                bounding_box[2] / image_width, # x2 (again)\
+                bounding_box[3] / image_height, # y2 (again)\
+            ]\
+            writer.writerow([gcs_image_path, label, ','.join(map(str, normalized_bounding_box))])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+import json\
+import csv\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000001.json')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+image_width = 1000\
+image_height = 1000\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            label = item_value['category_name']\
+            bounding_box = item_value['bounding_box']\
+            normalized_bounding_box = [\
+                bounding_box[0] / image_width,  # x1\
+                bounding_box[1] / image_height, # y1\
+                bounding_box[0] / image_width,  # x1 (again)\
+                bounding_box[3] / image_height, # y2\
+                bounding_box[2] / image_width,  # x2\
+                bounding_box[1] / image_height, # y1 (again)\
+                bounding_box[2] / image_width,  # x2 (again)\
+                bounding_box[3] / image_height, # y2 (again)\
+            ]\
+            writer.writerow([gcs_image_path, label, ','.join(map(str, normalized_bounding_box))])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+-\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+import json\
+import csv\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000001.json')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+image_width = 1000\
+image_height = 1000\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            label = item_value['category_name']\
+            bounding_box = item_value['bounding_box']\
+            normalized_bounding_box = [\
+                bounding_box[0] / image_width,  # x1\
+                bounding_box[1] / image_height, # y1\
+                bounding_box[0] / image_width,  # x1 (again)\
+                bounding_box[3] / image_height, # y2\
+                bounding_box[2] / image_width,  # x2\
+                bounding_box[1] / image_height, # y1 (again)\
+                bounding_box[2] / image_width,  # x2 (again)\
+                bounding_box[3] / image_height, # y2 (again)\
+            ]\
+            writer.writerow([gcs_image_path, label] + normalized_bounding_box)\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+import json\
+import csv\
+import cv2\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_path = expanduser('~/train/annos/000002.json')\
+image_path = expanduser('~/train/image/000002.jpg')\
+gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+image = cv2.imread(image_path)\
+image_height, image_width, _ = image.shape\
+\
+with open(json_path, 'r') as file:\
+    data = json.load(file)\
+\
+with open(csv_path, 'w', newline='') as file:\
+    writer = csv.writer(file)\
+    for item_key, item_value in data.items():\
+        if item_key in ["item1", "item2"]:\
+            label = item_value['category_name']\
+            bounding_box = item_value['bounding_box']\
+            normalized_bounding_box = [\
+                bounding_box[0] / image_width,   # X_MIN\
+                bounding_box[1] / image_height,  # Y_MIN\
+                bounding_box[2] / image_width,   # X_MAX\
+                bounding_box[1] / image_height,  # Y_MIN\
+                bounding_box[2] / image_width,   # X_MAX\
+                bounding_box[3] / image_height,  # Y_MAX\
+                bounding_box[0] / image_width,   # X_MIN\
+                bounding_box[3] / image_height   # Y_MAX\
+            ]\
+            writer.writerow([gcs_image_path, label] + normalized_bounding_box)\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+quit()\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+import json\
+import csv\
+import cv2\
+import os\
+from os.path import expanduser\
+\
+json_directory = expanduser('~/train/annos/')\
+image_directory = expanduser('~/train/image/')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+with open(csv_path, 'w', newline='') as csv_file:\
+    writer = csv.writer(csv_file)\
+    processed_files = 0\
+    for json_filename in os.listdir(json_directory):\
+        if processed_files >= 100:\
+            break\
+\
+        if json_filename.endswith('.json'):\
+		json_path = os.path.join(json_directory, json_filename)\
+		image_path = os.path.join(image_directory, os.path.splitext(json_filename)[0] + '.jpg')\
+            	gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + os.path.basename(json_filename).replace('.json', '.jpg')\
+\
+     	       if not os.path.exists(json_path) or not os.path.exists(image_path):\
+        	        print(f"Skipping missing file: \{json_path\} or \{image_path\}")\
+        	        continue\
+\
+            image = cv2.imread(image_path)\
+            if image is None:\
+                print(f"Could not load image: \{image_path\}")\
+                continue\
+\
+            image_height, image_width, _ = image.shape\
+\
+            with open(json_path, 'r') as file:\
+                data = json.load(file)\
+\
+                for item_key, item_value in data.items():\
+                    if item_key in ["item1", "item2"]:\
+                        label = item_value['category_name']\
+                        bounding_box = item_value['bounding_box']\
+                        normalized_bounding_box = [\
+                            bounding_box[0] / image_width,  # X_MIN\
+                            bounding_box[1] / image_height, # Y_MIN\
+                            bounding_box[2] / image_width,  # X_MAX\
+                            bounding_box[1] / image_height, # Y_MIN\
+                            bounding_box[2] / image_width,  # X_MAX\
+                            bounding_box[3] / image_height, # Y_MAX\
+                            bounding_box[0] / image_width,  # X_MIN\
+                            bounding_box[3] / image_height  # Y_MAX\
+                        ]\
+                        writer.writerow([gcs_image_path, label] + normalized_bounding_box)\
+\
+            processed_files += 1\
+\
+print(f"CSV file written to \{csv_path\}\'94)\\\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+import json\
+import csv\
+import cv2\
+import os\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_directory = expanduser('~/train/annos/')\
+image_directory = expanduser('~/train/image/')\
+csv_path = expanduser('~/train/anno_csv/test.csv')\
+\
+with open(csv_path, 'w', newline='') as csv_file:\
+    writer = csv.writer(csv_file)\
+    processed_files = 0\
+    for json_filename in os.listdir(json_directory):\
+        if processed_files >= 100:\
+            break\
+        if json_filename.endswith('.json'):\
+            json_path = os.path.join(json_directory, json_filename)\
+            image_path = os.path.join(image_directory, json_filename.replace('.json', '.jpg'))\
+            gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+            image = cv2.imread(image_path)\
+            image_height, image_width, _ = image.shape\
+            with open(json_path, 'r') as file:\
+                data = json.load(file)\
+            for item_key, item_value in data.items():\
+                if item_key in ["item1", "item2"]:\
+                    label = item_value['category_name']\
+                    bounding_box = item_value['bounding_box']\
+                    normalized_bounding_box = [\
+                        bounding_box[0] / image_width,   # X_MIN\
+                        bounding_box[1] / image_height,  # Y_MIN\
+                        bounding_box[2] / image_width,   # X_MAX\
+                        bounding_box[1] / image_height,  # Y_MIN\
+                        bounding_box[2] / image_width,   # X_MAX\
+                        bounding_box[3] / image_height,  # Y_MAX\
+                        bounding_box[0] / image_width,   # X_MIN\
+                        bounding_box[3] / image_height   # Y_MAX\
+                    ]\
+                    writer.writerow([gcs_image_path, label] + normalized_bounding_box)\
+            processed_files += 1\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+import json\
+import csv\
+import cv2\
+import os\
+from os.path import basename\
+from os.path import expanduser\
+\
+json_directory = expanduser('~/train/annos/')\
+image_directory = expanduser('~/train/image/')\
+csv_path = expanduser('~/train/anno_csv/train.csv')\
+\
+with open(csv_path, 'w', newline='') as csv_file:\
+    writer = csv.writer(csv_file)\
+    for json_filename in os.listdir(json_directory):\
+        if json_filename.endswith('.json'):\
+            json_path = os.path.join(json_directory, json_filename)\
+            image_path = os.path.join(image_directory, json_filename.replace('.json', '.jpg'))\
+            gcs_image_path = "gs://fashion-dataset-storage/Train/train/image/" + basename(json_path).replace('.json', '.jpg')\
+            image = cv2.imread(image_path)\
+            image_height, image_width, _ = image.shape\
+            with open(json_path, 'r') as file:\
+                data = json.load(file)\
+            for item_key, item_value in data.items():\
+                if item_key in ["item1", "item2"]:\
+                    label = item_value['category_name']\
+                    bounding_box = item_value['bounding_box']\
+                    normalized_bounding_box = [\
+                        bounding_box[0] / image_width,\
+                        bounding_box[1] / image_height,\
+                        bounding_box[2] / image_width,\
+                        bounding_box[1] / image_height,\
+                        bounding_box[2] / image_width,\
+                        bounding_box[3] / image_height,\
+                        bounding_box[0] / image_width,\
+                        bounding_box[3] / image_height\
+                    ]\
+                    writer.writerow([gcs_image_path, label] + normalized_bounding_box)\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+quit()\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+import json\
+import csv\
+import cv2\
+import os\
+from os.path import basename\
+from os.path import expanduser\
+from tqdm import tqdm\
+\
+json_directory = expanduser('~/validation/annos/')\
+image_directory = expanduser('~/validation/image/')\
+csv_path = expanduser('~/validation/anno_csv/validation.csv')\
+\
+with open(csv_path, 'w', newline='') as csv_file:\
+    writer = csv.writer(csv_file)\
+    json_files = [f for f in os.listdir(json_directory) if f.endswith('.json')]\
+    for json_filename in tqdm(json_files, desc='Processing JSON files'):\
+        json_path = os.path.join(json_directory, json_filename)\
+        image_path = os.path.join(image_directory, json_filename.replace('.json', '.jpg'))\
+        gcs_image_path = "gs://fashion-dataset-storage/validation/image/" + basename(json_path).replace('.json', '.jpg')\
+        image = cv2.imread(image_path)\
+        image_height, image_width, _ = image.shape\
+        with open(json_path, 'r') as file:\
+            data = json.load(file)\
+        for item_key, item_value in data.items():\
+            if item_key in ["item1", "item2"]:\
+                label = item_value['category_name']\
+                bounding_box = item_value['bounding_box']\
+                normalized_bounding_box = [\
+                    bounding_box[0] / image_width,\
+                    bounding_box[1] / image_height,\
+                    bounding_box[2] / image_width,\
+                    bounding_box[1] / image_height,\
+                    bounding_box[2] / image_width,\
+                    bounding_box[3] / image_height,\
+                    bounding_box[0] / image_width,\
+                    bounding_box[3] / image_height\
+                ]\
+                writer.writerow([gcs_image_path, label] + normalized_bounding_box)\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+quit()\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+import csv\
+import cv2\
+import os\
+from os.path import basename\
+from os.path import expanduser\
+\
+image_directory = expanduser('~/test/image/')\
+csv_path = expanduser('~/test/test.csv')\
+\
+with open(csv_path, 'w', newline='') as csv_file:\
+	writer = csv.writer(csv_file)\
+	for image_filename in os.listdir(image_directory):\
+		gcs_image_path = "gs://fashion-dataset-storage/test/image/" + basename(image_filename)\
+	 	writer.writerow([gcs_image_path])\
+\
+print(f"CSV file written to \{csv_path\}")\
+\
+quit()\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+awk -F, '($3 >= 0 && $3 <= 1) && ($4 >= 0 && $4 <= 1) && ($5 >= 0 && $5 <= 1) && ($6 >= 0 && $6 <= 1) && ($7 >= 0 && $7 <= 1) && ($8 >= 0 && $8 <= 1) && ($9 >= 0 && $9 <= 1) && ($10 >= 0 && $10 <= 1)' ~/train/anno_csv/train_modified.csv > ~/train/anno_csv/train_filtered.csv\
+\
+\
+	}
