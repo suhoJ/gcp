@@ -3,7 +3,7 @@ if EXIST "Locker" goto UNLOCK
 if NOT EXIST Locker mkdir Locker
 echo Enter password to lock folder
 set/p "pass=>"
-if %pass%==YOUR_PASSWORD goto LOCK
+if %pass%==gcp goto LOCK
 goto END
 
 :UNLOCK
